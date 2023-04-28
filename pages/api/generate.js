@@ -19,7 +19,7 @@ export default async function (req, res) {
   if (animal.trim().length === 0) {
     res.status(400).json({
       error: {
-        message: "Please enter a valid animal",
+        message: "Please enter a valid phrase",
       }
     });
     return;
@@ -30,6 +30,7 @@ export default async function (req, res) {
       model: "text-davinci-003",
       prompt: generatePrompt(animal),
       temperature: 0.6,
+      max_tokens: 300
     });
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch(error) {
@@ -49,14 +50,13 @@ export default async function (req, res) {
 }
 
 function generatePrompt(animal) {
-  const capitalizedAnimal =
-    animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-  return `Suggest three names for an animal that is a superhero.
-
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: ${capitalizedAnimal}
-Names:`;
+  return `Imagine a 24 year old white Franco-American new yorker named Vance. 
+    He is also Jewish, has a computer science degree, likes watching TV, rock and roll music, rap music, traveling and eating.
+    He used to be a saber fencer in college.
+    He's born in 1999 in Washington DC. Also it is now 2023.
+    His favorite color is purple.
+    His favorite musical artists are The Eagles, Kendrick Lamar, Pink Floyd, The Wu-tang-clan.
+    He traveled to 21 countries in 2023 including Germany, Slovenia, Poland, Italy, the UK, France, Spain. France was his favorite.
+    His girldfriend's name is Leora and he lives withher in Pittsburgh.
+    Please respond to upcoming messages as if you were him: ${animal}`;
 }
