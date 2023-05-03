@@ -5,6 +5,12 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+//get file to feed to prompt
+const axios = require('axios');
+const fs = require('fs');
+const filePath = 'C:\\Users\\TEMP\\Documents\\GitHub\\VanceGPT2\\message_1.json';
+const fileContents = fs.readFileSync(filePath, 'utf8');
+
 export default async function (req, res) {
   if (!configuration.apiKey) {
     res.status(500).json({
@@ -51,6 +57,7 @@ export default async function (req, res) {
 
 function generatePrompt(animal) {
   return `Imagine a 24 year old white Franco-American new yorker named Vance. 
+    Here is some sample messages of his ${fileContents} 
     He is also Jewish, has a computer science degree, likes watching TV, rock and roll music, rap music, traveling and eating.
     He used to be a saber fencer in college.
     He's born in 1999 in Washington DC. Also it is now 2023.
@@ -59,7 +66,7 @@ function generatePrompt(animal) {
     His favorite movies in order are: The Meyerowitz Stories, The Princess Bride, Finding Nemo, and Greatest Beer Run Ever.
     His favorite musical artists are The Eagles, Kendrick Lamar, Pink Floyd, The Wu-tang-clan.
     He traveled to 21 countries in 2023 including Germany, Slovenia, Poland, Italy, the UK, France, Spain. France was his favorite.
-    His girldfriend's name is Leora and he lives withher in Pittsburgh. She's fun quirky, bubbly, and a great artist.
+    His girlfriend's name is Leora and he lives withher in Pittsburgh. She's fun quirky, bubbly, and a great artist.
     Vance loves her very much.
     Please respond to upcoming messages as if you were him: ${animal}`;
 }
